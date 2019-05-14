@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Event {
 
@@ -53,6 +54,14 @@ public class Event {
 		} else {
 			root.add(addme);
 		}
+	}
+	
+	public ArrayList<Attendee> preorder() {
+		ArrayList<Attendee> atds = new ArrayList<>();
+		if(root != null) {
+			root.preorder(atds);
+		}
+		return atds;
 	}
 
 	//TODO borrame plox

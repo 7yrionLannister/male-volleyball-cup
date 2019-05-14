@@ -95,6 +95,16 @@ public class Attendee {
 			}
 		}
 	}
+	
+	public void preorder(ArrayList<Attendee> sts) {
+		sts.add(this);
+		if(left != null) {
+			left.preorder(sts);
+		}
+		if(right != null) {
+			right.preorder(sts);
+		}
+	}
 
 	//TODO Borrame plox
 	public void print(ArrayList<String> cdcd) {
