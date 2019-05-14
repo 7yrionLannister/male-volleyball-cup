@@ -12,18 +12,23 @@ public class Main extends Application {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Event event = new Event("data/event.csv");
-		ArrayList<String> cdcd = new ArrayList<String>();
-		event.printBST(cdcd);
-		System.out.println("\n");
+		ArrayList<model.Attendee> cdcd = event.preorder();
+		
+		System.out.println("\nAñadidos desde el archivo de texto");
 		for(int i = 0; i < cdcd.size(); i++) {
-			//boolean b = cdcd.get(i-1).compareTo(cdcd.get(i)) <= 0;
-			//System.out.println(b);
-			//if(!b) {
-			//	System.out.println(cdcd.get(i-1) + "::"+cdcd.get(i));
-			//}
-			System.out.println(cdcd.get(i));
+			System.out.println(cdcd.get(i).getId());
 		}
-		System.out.println("*** "+("00-2252884".compareTo("00-5972239")<=0));
+		event.cortarArbol();
+		for(int i = 0; i < cdcd.size(); i++) {
+			cdcd.get(i).setLeft(null);
+			cdcd.get(i).setRight(null);
+			event.addAttendee(cdcd.get(i).getId(), cdcd.get(i).getFirstName(), cdcd.get(i).getLastName(), cdcd.get(i).getEmail(), cdcd.get(i).getGender(), cdcd.get(i).getCountry(), cdcd.get(i).getPhoto(), cdcd.get(i).getBirthday());
+		}
+		cdcd = event.preorder();
+		System.out.println("\n\nAñadidos desde un arreglo");
+		for(int i = 0; i < cdcd.size(); i++) {
+			System.out.println(cdcd.get(i).getId());
+		}
 		System.exit(0);
 	}
 

@@ -68,4 +68,10 @@ public class Event {
 	public void printBST(ArrayList<String> cdcd) {
 		root.print(cdcd);
 	}
+	
+	//TODO borrame plox porque ya esta demostrado que si podemos agregar nodos desde cero con el arreglo en preorder y que quede el arbol identico
+	//TODO esta idea usala para graficar, ten un areglo de elemtos graficos en preorder y luego añadelos como un arbol pero de manera grafica
+	public void cortarArbol() {
+		root = null;
+	}
 }
