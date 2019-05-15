@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class DateTest {
+public class DateTest {
 	private Date date;
 
 	private void setupScenary1() {
@@ -18,7 +18,7 @@ class DateTest {
 		int day = 4;
 		int month = 3;
 		int year = 2001;
-		date = new Date(day, month, year);
+		date = new Date(month, day, year);
 		assertTrue("The day has not the requested value", day == date.getDay());
 		assertTrue("The month has not the requested value", month == date.getMonth());
 		assertTrue("The year has not the requested value", year == date.getYear());

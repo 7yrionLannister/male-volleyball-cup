@@ -5,9 +5,9 @@ public class Date {
 	private int month;
 	private int year;
 	
-	public Date(int day, int month, int year) throws IllegalArgumentException {
+	public Date(int month, int day, int year) throws IllegalArgumentException {
 		if(day <= 0 || day > 31 || month <= 0 || month > 12) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Invalid date: (" + day + ", " + month + ", " + year + ")");
 		}
 		this.day = day;
 		this.month = month;

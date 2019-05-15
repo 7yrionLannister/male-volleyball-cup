@@ -5,23 +5,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Event {
 
 	private Attendee root;
 	private Attendee head;
-	
+
 	public Event(String path) throws IOException {
 		refreshAttendees(path);
 	}
-	
+
 	public void refreshAttendees(String path) throws IOException {
 		root = null;
 		head = null;
 		load(path);
 	}
-	
+
 	private void load(String path) throws IOException {
 		File file = new File(path);
 		FileReader fr = new FileReader(file);
@@ -39,7 +38,7 @@ public class Event {
 			String p = data[6];
 			String[] bd = data[7].split("/");
 			Date d = new Date(Integer.parseInt(bd[0]), Integer.parseInt(bd[1]), Integer.parseInt(bd[2]));
-			
+
 			addAttendee(id, fn, ln, e, g, c, p, d);
 			line = br.readLine();
 		}
@@ -47,7 +46,7 @@ public class Event {
 		fr.close();
 	}
 
-	public void addAttendee(String id, String fn, String ln, String e, String g, String c, String p, Date d) {
+	private void addAttendee(String id, String fn, String ln, String e, String g, String c, String p, Date d) {
 		Attendee addme = new Attendee(id, fn, ln, e, g, c, p, d);
 		if(root == null) {
 			root = addme;
@@ -55,7 +54,21 @@ public class Event {
 			root.add(addme);
 		}
 	}
-	
+
+	public Attendee searchAttendee(String id) {
+		return searchAttendee(root, id);
+	}
+
+	private Attendee searchAttendee(Attendee current, String id) {
+		if(current == null || id.compareTo(current.getId()) == 0) {
+			return current;
+		} else if(id.compareTo(current.getId()) < 0) {
+			return searchAttendee(current.getLeft(), id);
+		} else {
+			return searchAttendee(current.getRight(), id);
+		}
+	}
+
 	public ArrayList<Attendee> preorder() {
 		ArrayList<Attendee> atds = new ArrayList<>();
 		if(root != null) {
@@ -67,11 +80,5 @@ public class Event {
 	//TODO borrame plox
 	public void printBST(ArrayList<String> cdcd) {
 		root.print(cdcd);
-	}
-	
-	//TODO borrame plox porque ya esta demostrado que si podemos agregar nodos desde cero con el arreglo en preorder y que quede el arbol identico
-	//TODO esta idea usala para graficar, ten un areglo de elemtos graficos en preorder y luego añadelos como un arbol pero de manera grafica
-	public void cortarArbol() {
-		root = null;
 	}
 }
