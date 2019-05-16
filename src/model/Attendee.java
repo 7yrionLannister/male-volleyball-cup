@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Attendee {
+public class Attendee implements Comparable<Attendee>{
 	
 	private String id;
 	private String firstName;
@@ -81,7 +81,7 @@ public class Attendee {
 	}
 
 	public void add(Attendee addme) {
-		if(addme.id.compareTo(id) <= 0) {
+		if(compareTo(addme) >= 0) {
 			if(left != null) {
 				left.add(addme);
 			} else {
@@ -116,5 +116,10 @@ public class Attendee {
 		if(right != null) {
 			right.print(cdcd);
 		}
+	}
+
+	@Override
+	public int compareTo(Attendee o) {
+		return id.compareTo(o.id);
 	}
 }

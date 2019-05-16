@@ -2,18 +2,38 @@ package model;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 
 public class AttendeeTest {
 	private Attendee root;
+	private ArrayList<Attendee> trail;
 	
-	private void setupScenary1() {
+	private void setupScenario1() {
 		root = null;
+	}
+	
+	private void setupScenario2() {
+		setupScenario1();
+		trail = new ArrayList<>();
+		
+		trail.add(new Attendee("47-9670632","Doralia","Tough","dtough0@list-manage.com","Female","France","https://robohash.org/consequaturaliquamet.jpg?size=50x50&set=set1",new Date(11,14,1974)));
+		trail.add(new Attendee("02-5620315","Minor","Fligg","mfligg1@scribd.com","Male","Brazil","https://robohash.org/autveniamconsequatur.jpg?size=50x50&set=set1",new Date(9,28,1999)));
+		trail.add(new Attendee("39-7344981","Llewellyn","McGill","lmcgill5@cmu.edu","Male","Uzbekistan","https://robohash.org/possimusquovoluptas.jpg?size=50x50&set=set1",new Date(1,25,1989)));
+		trail.add(new Attendee("75-5434535","Stacey","Pickring","spickring2@japanpost.jp","Female","Philippines","https://robohash.org/ducimusfacereea.jpg?size=50x50&set=set1",new Date(5,9,1994)));
+		trail.add(new Attendee("75-4480440","Darcie","Staining","dstaining3@aboutads.info","Female","Russia","https://robohash.org/perferendisesteum.bmp?size=50x50&set=set1",new Date(12,8,2008)));
+		trail.add(new Attendee("55-5500788","Ignazio","Rayburn","irayburn6@4shared.com","Male","Indonesia","https://robohash.org/etreprehenderitfuga.bmp?size=50x50&set=set1",new Date(6,25,1989)));
+		trail.add(new Attendee("60-7717155","Bevvy","Hebborne","bhebborne7@cafepress.com","Female","Dominican Republic","https://robohash.org/voluptatemautassumenda.bmp?size=50x50&set=set1",new Date(3,7,1966)));
+		trail.add(new Attendee("78-3054052","Micheal","Geill","mgeill4@rediff.com","Male","Poland","https://robohash.org/quosintveniam.bmp?size=50x50&set=set1",new Date(1,9,1977)));
+		trail.add(new Attendee("91-4831242","Augustine","Prop","aprop8@e-recht24.de","Female","France","https://robohash.org/sedrerumeos.png?size=50x50&set=set1",new Date(9,23,1972)));
+		trail.add(new Attendee("95-2624090","Pieter","Bealton","pbealton9@oaic.gov.au","Male","Jordan","https://robohash.org/utdolormollitia.bmp?size=50x50&set=set1",new Date(7,17,1980)));
 	}
 	
 	@Test
 	public void createAttendeeTest() {
-		setupScenary1();
+		setupScenario1();
 		String id = "43-723618833";
 		String fn = "Catelyn";
 		String ln = "Tully";
@@ -35,5 +55,26 @@ public class AttendeeTest {
 		assertTrue("The birthday does not have the requested value", bd == root.getBirthday());
 		assertNull("The attendee has just been created so it wouldn't have child nodes", root.getLeft());
 		assertNull("The attendee has just been created so it wouldn't have child nodes", root.getRight());
+	}
+	
+	@Test
+	public void preorderTest() {
+		setupScenario2();
+		root = trail.get(0);
+		trail.get(0).setLeft(trail.get(1));
+		trail.get(0).setRight(trail.get(2));
+		trail.get(2).setRight(trail.get(3));
+		trail.get(3).setLeft(trail.get(4));
+		trail.get(4).setLeft(trail.get(5));
+		trail.get(4).setRight(trail.get(6));
+		trail.get(3).setRight(trail.get(7));
+		trail.get(7).setRight(trail.get(8));
+		trail.get(8).setRight(trail.get(9));
+		ArrayList<Attendee> preorder = new ArrayList<Attendee>();
+		root.preorder(preorder);
+		
+		for(int i = 0; i < preorder.size(); i++) {
+			assertTrue("The returned list is not in preorder", preorder.get(i).compareTo(trail.get(i)) == 0);
+		}
 	}
 }
