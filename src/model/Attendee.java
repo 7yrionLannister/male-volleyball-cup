@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Attendee implements Comparable<Attendee>{
-	
+
 	private String id;
 	private String firstName;
 	private String lastName;
@@ -12,10 +12,10 @@ public class Attendee implements Comparable<Attendee>{
 	private String country;
 	private String photo;
 	private Date birthday;
-	
+
 	private Attendee left;
 	private Attendee right;
-	
+
 	public Attendee(String id, String firstName, String lastName, String email, String gender, String country, String photo,
 			Date birthday) {
 		this.id = id;
@@ -47,7 +47,7 @@ public class Attendee implements Comparable<Attendee>{
 	public String getGender() {
 		return gender;
 	}
-	
+
 	public String getCountry() {
 		return country;
 	}
@@ -59,23 +59,19 @@ public class Attendee implements Comparable<Attendee>{
 	public Date getBirthday() {
 		return birthday;
 	}
-	
-	//TODO eliminame si al final no me usas
+
 	public Attendee getLeft() {
 		return left;
 	}
 
-	//TODO eliminame si al final no me usas
 	public void setLeft(Attendee left) {
 		this.left = left;
 	}
 
-	//TODO eliminame si al final no me usas
 	public Attendee getRight() {
 		return right;
 	}
 
-	//TODO eliminame si al final no me usas
 	public void setRight(Attendee right) {
 		this.right = right;
 	}
@@ -95,26 +91,24 @@ public class Attendee implements Comparable<Attendee>{
 			}
 		}
 	}
-	
-	public void preorder(ArrayList<Attendee> sts) {
-		sts.add(this);
+
+	public void preorder(ArrayList<Attendee> atds) {
+		atds.add(this);
 		if(left != null) {
-			left.preorder(sts);
+			left.preorder(atds);
 		}
 		if(right != null) {
-			right.preorder(sts);
+			right.preorder(atds);
 		}
 	}
 
-	//TODO Borrame plox
-	public void print(ArrayList<String> cdcd) {
+	public void inorder(ArrayList<Attendee> atds) {
 		if(left != null) {
-			left.print(cdcd);
+			left.inorder(atds);
 		}
-		System.out.println(id);
-		cdcd.add(id);
+		atds.add(this);
 		if(right != null) {
-			right.print(cdcd);
+			right.inorder(atds);
 		}
 	}
 

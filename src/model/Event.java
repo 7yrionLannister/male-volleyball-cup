@@ -4,20 +4,28 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Event {
 
 	private Attendee root;
 	private Attendee head;
 
+	private int participants;
+	private SecureRandom sr;
+
 	public Event(String path) throws IOException {
+		sr = new SecureRandom();
 		refreshAttendees(path);
 	}
 
 	public void refreshAttendees(String path) throws IOException {
 		root = null;
 		head = null;
+		participants = 0;
 		load(path);
 	}
 
@@ -41,12 +49,16 @@ public class Event {
 
 			addAttendee(id, fn, ln, e, g, c, p, d);
 			line = br.readLine();
+			participants++;
 		}
 		br.close();
 		fr.close();
+
+		participants /= 2;
+		selectParticipants();
 	}
 
-	private void addAttendee(String id, String fn, String ln, String e, String g, String c, String p, Date d) {
+	public void addAttendee(String id, String fn, String ln, String e, String g, String c, String p, Date d) {
 		Attendee addme = new Attendee(id, fn, ln, e, g, c, p, d);
 		if(root == null) {
 			root = addme;
@@ -77,8 +89,43 @@ public class Event {
 		return atds;
 	}
 
-	//TODO borrame plox
-	public void printBST(ArrayList<String> cdcd) {
-		root.print(cdcd);
+	public ArrayList<Attendee> inorder() {
+		ArrayList<Attendee> atds = new ArrayList<>();
+		if(root != null) {
+			root.inorder(atds);
+		}
+		return atds;
+	}
+
+	private void selectParticipants() {
+		participants-=1;
+		ArrayList<Attendee> preorder = preorder();
+		//System.out.println(preorder.size());
+		if(participants > 0 && preorder.size() > 1) {
+			int index = 2+sr.nextInt(preorder.size()-1);
+			removeFromBSTAndInsertInLinkedlist(preorder.get(index));
+			selectParticipants();
+		}
+	}
+
+	private void removeFromBSTAndInsertInLinkedlist(Attendee toremove) {
+		//TODO implementar llamando a addToLinkedList
+	}
+	
+	//returns the parent node of the node to be deleted
+	private Attendee addToLinkedList(Attendee atld) {
+		//TODO implementar
+	}
+
+	public Attendee getRoot() {
+		return root;
+	}
+
+	public Attendee getHead() {
+		return head;
+	}
+
+	public int getParticipants() {
+		return participants;
 	}
 }
