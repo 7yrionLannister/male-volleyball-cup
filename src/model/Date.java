@@ -30,4 +30,9 @@ public class Date {
 	public String toString() {
 		return month+"/"+day+"/"+year;
 	}
+	
+	@Override
+	public Date clone() {
+		return new Date(month, day, year);
+	}
 }

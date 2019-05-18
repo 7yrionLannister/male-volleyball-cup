@@ -34,8 +34,9 @@ public class Event {
 		FileReader fr = new FileReader(file);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
-		line = br.readLine();
 		while(line != null) {
+			line = line.substring(0, line.length()-1);
+			System.out.println(line);
 			String[] data = line.split(",");
 			String id = data[0];
 			String fn = data[1];
@@ -45,7 +46,9 @@ public class Event {
 			String c = data[5];
 			String p = data[6];
 			String[] bd = data[7].split("/");
-			Date d = new Date(Integer.parseInt(bd[0]), Integer.parseInt(bd[1]), Integer.parseInt(bd[2]));
+			Date d = new Date(Integer.parseInt(bd[0]),
+					Integer.parseInt(bd[1]), 
+					Integer.parseInt(bd[2]));
 
 			addAttendee(id, fn, ln, e, g, c, p, d);
 			line = br.readLine();
@@ -80,6 +83,18 @@ public class Event {
 			return searchAttendee(current.getRight(), id);
 		}
 	}
+	
+	public Attendee searchParticipant(String id) {
+		return searchParticipant(root, id);
+	}
+	
+	private Attendee searchParticipant(Attendee current, String id) {
+		if(current == null || id.compareTo(current.getId()) == 0) {
+			return current;
+		} else {
+			return searchParticipant(current.getRight(), id);
+		}
+	}
 
 	public ArrayList<Attendee> preorder() {
 		ArrayList<Attendee> atds = new ArrayList<>();
@@ -100,32 +115,87 @@ public class Event {
 	private void selectParticipants() {
 		participants-=1;
 		ArrayList<Attendee> preorder = preorder();
-		//System.out.println(preorder.size());
 		if(participants > 0 && preorder.size() > 1) {
-			int index = 2+sr.nextInt(preorder.size()-1);
+			int index = 1+sr.nextInt(preorder.size()-1);
 			removeFromBSTAndInsertInLinkedlist(preorder.get(index));
 			selectParticipants();
 		}
 	}
 
 	private void removeFromBSTAndInsertInLinkedlist(Attendee toremove) {
-		//TODO implementar llamando a addToLinkedList
+		
+		if(toremove.getLeft() != null && toremove.getRight() != null) {
+			Attendee successor = successor(toremove);
+			toremove.setBirthday(successor.getBirthday());
+			toremove.setCountry(successor.getCountry());
+			toremove.setEmail(successor.getEmail());
+			toremove.setFirstName(successor.getFirstName());
+			toremove.setLastName(successor.getLastName());
+			toremove.setId(successor.getId());
+			toremove.setGender(successor.getGender());
+			toremove.setPhoto(successor.getPhoto());
+			
+			removeFromBSTAndInsertInLinkedlist(successor);
+		} else if(toremove.getLeft() != null) {
+			if(toremove.getParent().getLeft() == toremove) {
+				toremove.getParent().setLeft(toremove.getLeft());
+			} else {
+				toremove.getParent().setRight(toremove.getLeft());
+			}
+			addToLinkedList(toremove.getId(), toremove.getFirstName(), toremove.getLastName(), toremove.getEmail(), toremove.getGender(), toremove.getCountry(), toremove.getPhoto(), toremove.getBirthday().clone());
+		} else {
+			if(toremove.getParent().getLeft() == toremove) {
+				toremove.getParent().setLeft(toremove.getRight());
+			} else {
+				toremove.getParent().setRight(toremove.getRight());
+			}
+		}
 	}
 	
-	//returns the parent node of the node to be deleted
-	private Attendee addToLinkedList(Attendee atld) {
-		//TODO implementar
+	private void addToLinkedList(String id, String fn, String ln, String e, String g, String c, String p, Date d) {
+		Attendee addme = new Attendee(id, fn, ln, e, g, c, p, d);
+		if(head == null) {
+			head = addme;
+		} else {
+			addme.setRight(head);
+			head.setLeft(addme);
+			head = addme;
+		}
 	}
 
+	public Attendee minimum() {
+		if(root == null) {
+			return root;
+		} else {
+			return minimum(root);
+		}
+	}
+	
+	private Attendee minimum(Attendee current) {
+		if(current.getLeft() == null) {
+			return current;
+		} else {
+			return minimum(current.getLeft());
+		}
+	}
+	
+	public Attendee successor(Attendee at) {
+		if(at.getRight() != null) {
+			return minimum(at.getRight());
+		} else {
+			Attendee current = at;
+			while(current != null && current.getParent().getLeft() != current) {
+				current = current.getParent();
+			}
+			return (current!=null)?current.getParent():null;
+		}
+	}
+	
 	public Attendee getRoot() {
 		return root;
 	}
 
 	public Attendee getHead() {
 		return head;
-	}
-
-	public int getParticipants() {
-		return participants;
 	}
 }
