@@ -117,7 +117,7 @@ public class Attendee implements Comparable<Attendee>{
 		this.birthday = birthday;
 	}
 
-	public void add(Attendee addme) {
+	public void add(Attendee addme) {//FIXME parece que algunos enlaces de nodos diferentes del root quedan con parent null
 		if(compareTo(addme) >= 0) {
 			if(left != null) {
 				addme.setParent(left);

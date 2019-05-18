@@ -27,7 +27,7 @@ public class EventTest {
 			assertTrue(true);
 		}
 		try {
-			event = new Event("data/test.csv");
+			event = new Event("data/event.csv");
 		} catch (IOException e) {
 			fail("There was a problem reading the file");
 		}
@@ -37,7 +37,7 @@ public class EventTest {
 	public void refreshAttendeesTest() {
 		createEventTest();
 		try {
-			event.refreshAttendees("data/test.csv");
+			event.refreshAttendees("data/event.csv");
 		} catch (IOException e) {
 			fail("There was a problem reading the file");
 		}

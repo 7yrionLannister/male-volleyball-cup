@@ -34,9 +34,8 @@ public class Event {
 		FileReader fr = new FileReader(file);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
-		while(line != null) {
+		while(line != null && line.length() > 0) {
 			line = line.substring(0, line.length()-1);
-			System.out.println(line);
 			String[] data = line.split(",");
 			String id = data[0];
 			String fn = data[1];
@@ -142,12 +141,19 @@ public class Event {
 			} else {
 				toremove.getParent().setRight(toremove.getLeft());
 			}
-			addToLinkedList(toremove.getId(), toremove.getFirstName(), toremove.getLastName(), toremove.getEmail(), toremove.getGender(), toremove.getCountry(), toremove.getPhoto(), toremove.getBirthday().clone());
-		} else {
-			if(toremove.getParent().getLeft() == toremove) {
-				toremove.getParent().setLeft(toremove.getRight());
-			} else {
+			//addToLinkedList(toremove.getId(), toremove.getFirstName(), toremove.getLastName(), toremove.getEmail(), toremove.getGender(), toremove.getCountry(), toremove.getPhoto(), toremove.getBirthday().clone());
+		} else if(toremove.getRight() != null) {
+			if(toremove.getParent().getRight() == toremove) {
 				toremove.getParent().setRight(toremove.getRight());
+			} else {
+				toremove.getParent().setLeft(toremove.getRight());
+			}
+		} else { //es solo una hoja
+			System.out.println(toremove.getParent());
+			if(toremove.getParent().getRight() == toremove) {
+				toremove.getParent().setRight(null);
+			} else {
+				toremove.getParent().setLeft(null);
 			}
 		}
 	}
