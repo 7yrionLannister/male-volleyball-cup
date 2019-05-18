@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-
+//TODO borrar este comentario
 public class Attendee implements Comparable<Attendee>{
 
 	private String id;
