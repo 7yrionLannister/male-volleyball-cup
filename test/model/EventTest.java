@@ -47,7 +47,7 @@ public class EventTest {
 	public void inorderTest() {
 		createEventTest();
 		ArrayList<Attendee> inorder = event.inorder();
-		for(int i = 1; i < inorder.size(); i++) {System.out.println(inorder.size());
+		for(int i = 1; i < inorder.size(); i++) {
 			assertTrue("The returned list is not in preorder", inorder.get(i).compareTo(inorder.get(i-1))>=0);
 		}
 	}
@@ -55,11 +55,12 @@ public class EventTest {
 	@Test
 	public void searchAttendeeTest() {
 		createEventTest();
-		String id = "56-2906064";
+		String id = "95-0848182";
 		Attendee found = event.searchAttendee(id);
 		if(found == null) {
 			found = event.searchParticipant(id);
 		}
+		
 		assertNotNull("The attendee should have been found as the id was copied and pasted from the csv file", found);
 		assertTrue("The id of the found attendee does not correspond to the searched id", found.getId().equals(id));
 	}
