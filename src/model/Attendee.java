@@ -159,4 +159,9 @@ public class Attendee implements Comparable<Attendee>{
 	public int compareTo(Attendee o) {
 		return id.compareTo(o.id);
 	}
+	
+	@Override
+	public Attendee clone() {
+		return new Attendee(id, firstName, lastName, email, gender, country, photo, birthday.clone());
+	}
 }

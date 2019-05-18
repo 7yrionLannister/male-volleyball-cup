@@ -6,8 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class Event {
 
@@ -116,13 +114,16 @@ public class Event {
 		ArrayList<Attendee> preorder = preorder();
 		if(participants > 0 && preorder.size() > 1) {
 			int index = 1+sr.nextInt(preorder.size()-1);
+			addToLinkedList(preorder.get(index).clone());
 			removeFromBSTAndInsertInLinkedlist(preorder.get(index));
 			selectParticipants();
 		}
 	}
 
 	private void removeFromBSTAndInsertInLinkedlist(Attendee toremove) {
-		
+		if(toremove.getParent() == null) {
+			return;
+		}
 		if(toremove.getLeft() != null && toremove.getRight() != null) {
 			Attendee successor = successor(toremove);
 			toremove.setBirthday(successor.getBirthday());
@@ -141,15 +142,18 @@ public class Event {
 			} else {
 				toremove.getParent().setRight(toremove.getLeft());
 			}
-			//addToLinkedList(toremove.getId(), toremove.getFirstName(), toremove.getLastName(), toremove.getEmail(), toremove.getGender(), toremove.getCountry(), toremove.getPhoto(), toremove.getBirthday().clone());
+			toremove.getLeft().setParent(toremove.getParent());
 		} else if(toremove.getRight() != null) {
 			if(toremove.getParent().getRight() == toremove) {
 				toremove.getParent().setRight(toremove.getRight());
 			} else {
 				toremove.getParent().setLeft(toremove.getRight());
 			}
+			toremove.getRight().setParent(toremove.getParent());
 		} else { //es solo una hoja
-			System.out.println(toremove.getParent());
+			if(toremove.getParent() == null) {
+				System.out.println("Mi parent es NULL");if(toremove == root) {System.out.println("y soy la raiz");}
+			}
 			if(toremove.getParent().getRight() == toremove) {
 				toremove.getParent().setRight(null);
 			} else {
@@ -158,8 +162,7 @@ public class Event {
 		}
 	}
 	
-	private void addToLinkedList(String id, String fn, String ln, String e, String g, String c, String p, Date d) {
-		Attendee addme = new Attendee(id, fn, ln, e, g, c, p, d);
+	private void addToLinkedList(Attendee addme) {
 		if(head == null) {
 			head = addme;
 		} else {
