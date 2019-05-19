@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-//TODO borrar este comentario
 public class Attendee implements Comparable<Attendee>{
 
 	private String id;
@@ -117,7 +116,7 @@ public class Attendee implements Comparable<Attendee>{
 		this.birthday = birthday;
 	}
 
-	public void add(Attendee addme) {//FIXME parece que algunos enlaces de nodos diferentes del root quedan con parent null
+	public void add(Attendee addme) {
 		if(compareTo(addme) >= 0) {
 			if(left != null) {
 				addme.setParent(left);

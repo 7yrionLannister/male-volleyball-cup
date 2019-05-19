@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.VolleyballCupController">
    <tabs>
       <Tab closable="false" text="Banner">
          <content>
@@ -26,14 +26,14 @@
                            <font>
                               <Font name="Comic Sans MS Bold" size="14.0" />
                            </font></Label>
-                        <ImageView fitHeight="191.0" fitWidth="196.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label text="ID:" />
-                        <Label text="First name:" />
-                        <Label text="Last name:" />
-                        <Label text="Email" />
-                        <Label text="Gender:" />
-                        <Label text="Country:" />
-                        <Label text="Birthdate:" />
+                        <ImageView fx:id="foundPhoto" fitHeight="191.0" fitWidth="196.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="idLabel" text="ID:" />
+                        <Label fx:id="firstNameLabel" text="First name:" />
+                        <Label fx:id="lastNameLabel" text="Last name:" />
+                        <Label fx:id="emailLabel" text="Email" />
+                        <Label fx:id="genderLabel" text="Gender:" />
+                        <Label fx:id="countryLabel" text="Country:" />
+                        <Label fx:id="birthdayLabel" text="Birthday:" />
                      </children>
                      <BorderPane.margin>
                         <Insets left="80.0" right="80.0" />
@@ -54,15 +54,15 @@
                                  </font></Label>
                               <HBox spacing="5.0">
                                  <children>
-                                    <TextField />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" text="Choose" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" text="Load" />
+                                    <TextField fx:id="pathTextField" />
+                                    <Button mnemonicParsing="false" onAction="#chooseButtonPressed" prefHeight="25.0" prefWidth="56.0" text="Choose" />
+                                    <Button mnemonicParsing="false" onAction="#loadButtonPressed" prefHeight="25.0" prefWidth="45.0" text="Load" />
                                  </children>
                                  <padding>
                                     <Insets bottom="6.0" right="3.0" top="6.0" />
                                  </padding>
                               </HBox>
-                              <Label text="..." />
+                              <Label fx:id="loadDataMessageLabel" text="..." />
                            </children>
                            <padding>
                               <Insets left="4.0" />
@@ -77,15 +77,15 @@
                               <HBox spacing="5.0">
                                  <children>
                                     <Label text="ID" />
-                                    <TextField prefHeight="25.0" prefWidth="98.0" />
-                                    <Button mnemonicParsing="false" text="Search" />
-                                    <Label text="..." />
+                                    <TextField fx:id="attendeeSearchTextField" prefHeight="25.0" prefWidth="98.0" />
+                                    <Button mnemonicParsing="false" onAction="#searchAttendeePressed" text="Search" />
+                                    <Label fx:id="searchAttendeeTimeLabel" text="..." />
                                  </children>
                                  <padding>
                                     <Insets bottom="6.0" right="3.0" top="6.0" />
                                  </padding>
                               </HBox>
-                              <Label text="..." />
+                              <Label fx:id="searchAttendeeMessageLabel" text="..." />
                            </children>
                            <VBox.margin>
                               <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
@@ -103,15 +103,15 @@
                               <HBox spacing="5.0">
                                  <children>
                                     <Label text="ID" />
-                                    <TextField prefHeight="25.0" prefWidth="98.0" />
-                                    <Button mnemonicParsing="false" text="Search" />
-                                    <Label text="..." />
+                                    <TextField fx:id="participantSearchTextField" prefHeight="25.0" prefWidth="98.0" />
+                                    <Button mnemonicParsing="false" onAction="#searchParticipantPressed" text="Search" />
+                                    <Label fx:id="searchParticipantTimeLabel" text="..." />
                                  </children>
                                  <padding>
                                     <Insets bottom="6.0" right="3.0" top="6.0" />
                                  </padding>
                               </HBox>
-                              <Label text="..." />
+                              <Label fx:id="searchParticipantMessageLabel" text="..." />
                            </children>
                            <VBox.margin>
                               <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />

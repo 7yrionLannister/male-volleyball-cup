@@ -32,7 +32,8 @@ public class Event {
 		FileReader fr = new FileReader(file);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
-		while(line != null && line.length() > 0) {
+		while(line != null && line.length() > 0 && participants < 9785) {
+			//9785 is the max ammount due to StackOverflow
 			line = line.substring(0, line.length()-1);
 			String[] data = line.split(",");
 			String id = data[0];
@@ -82,7 +83,7 @@ public class Event {
 	}
 	
 	public Attendee searchParticipant(String id) {
-		return searchParticipant(root, id);
+		return searchParticipant(head, id);
 	}
 	
 	private Attendee searchParticipant(Attendee current, String id) {
@@ -113,17 +114,31 @@ public class Event {
 		participants-=1;
 		ArrayList<Attendee> preorder = preorder();
 		if(participants > 0 && preorder.size() > 1) {
-			int index = 1+sr.nextInt(preorder.size()-1);
-			addToLinkedList(preorder.get(index).clone());
-			removeFromBSTAndInsertInLinkedlist(preorder.get(index));
+			
+			boolean done = false;
+			while(!done) {
+				try {
+				int index = 1+sr.nextInt(preorder.size()-1);
+				addToLinkedList(preorder.get(index).clone());
+				removeFromBST(preorder.get(index));
+				preorder.remove(preorder.get(index));
+				done = true;
+				} catch (NullPointerException npe) {
+					removeLastParticipantAdded();
+				}
+			}
 			selectParticipants();
 		}
 	}
 
-	private void removeFromBSTAndInsertInLinkedlist(Attendee toremove) {
-		if(toremove.getParent() == null) {
-			return;
+	private void removeLastParticipantAdded() {
+		head = head.getRight();
+		if(head != null) {
+			head.setLeft(null);
 		}
+	}
+
+	private void removeFromBST(Attendee toremove) {
 		if(toremove.getLeft() != null && toremove.getRight() != null) {
 			Attendee successor = successor(toremove);
 			toremove.setBirthday(successor.getBirthday());
@@ -135,7 +150,7 @@ public class Event {
 			toremove.setGender(successor.getGender());
 			toremove.setPhoto(successor.getPhoto());
 			
-			removeFromBSTAndInsertInLinkedlist(successor);
+			removeFromBST(successor);
 		} else if(toremove.getLeft() != null) {
 			if(toremove.getParent().getLeft() == toremove) {
 				toremove.getParent().setLeft(toremove.getLeft());
@@ -151,9 +166,6 @@ public class Event {
 			}
 			toremove.getRight().setParent(toremove.getParent());
 		} else { //es solo una hoja
-			if(toremove.getParent() == null) {
-				System.out.println("Mi parent es NULL");if(toremove == root) {System.out.println("y soy la raiz");}
-			}
 			if(toremove.getParent().getRight() == toremove) {
 				toremove.getParent().setRight(null);
 			} else {
@@ -162,7 +174,7 @@ public class Event {
 		}
 	}
 	
-	private void addToLinkedList(Attendee addme) {
+	public void addToLinkedList(Attendee addme) {
 		if(head == null) {
 			head = addme;
 		} else {
