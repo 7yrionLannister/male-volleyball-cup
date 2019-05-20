@@ -32,8 +32,8 @@ public class Event {
 		FileReader fr = new FileReader(file);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
-		while(line != null && line.length() > 0 && participants < 9785) {
-			//9785 is the max ammount due to StackOverflow
+		while(line != null && line.length() > 0 && participants < 9100) {
+			//9100 is the max amount due to StackOverflow, it may differ depending on resources
 			line = line.substring(0, line.length()-1);
 			String[] data = line.split(",");
 			String id = data[0];
